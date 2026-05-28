@@ -5,30 +5,21 @@ A comprehensive survey and technical design for next-generation AI-driven GEM re
 ## Repository Contents
 
 ### Research Report
-- **[GEM-重建方法调研报告.md](GEM-重建方法调研报告.md)** — Detailed survey of 9 GEM reconstruction tools:
+- **GEM-重建方法调研报告.md** — Detailed survey of 9 GEM reconstruction tools/platforms:
   CarveMe, ModelSEED/KBase/RAST, gapseq, AGORA/DEMETER, GEMsembler,
   gempipe, pyFBA, Bactabolize
-  - Methodological comparison
-  - Output quality benchmarks
-  - LLM-improvement opportunity matrix
+  - For each tool: databases used (exact entry counts), annotation tools (input/output/method), pipeline steps
+  - Cross-tool database comparison (15 databases, entry counts, which tool uses which)
+  - Annotation tool comparison (12 tools, input/output/method/workflow association)
+  - Longitudinal analysis: 16-step genome-to-GEM workflow with SOTA tools per step
+  - LLM improvement opportunity matrix
 
 ### Technical Designs
-- **[agem_llm-技术路线-v4.md](agem_llm-技术路线-v4.md)** — Final technical design for the agem_llm pipeline:
-  - 7-stage pipeline: protein pre-filtering → multi-tool annotation → multi-database GPR assembly
-    → SBML construction → topology + template comparison → GPR metadata store → LLM refinement
-  - 8-database collaborative decision system
-  - Synthesizes strengths of CarveMe (template completeness) + gapseq (GPR coverage)
+- **agem_llm-技术路线-v4.md** — Final technical design for the agem_llm pipeline (7-stage, 8-database collaborative system)
 
 ### Implementation Plans
-- **[docs/superpowers/plans/](docs/superpowers/plans/)** — 3-phase implementation plan:
-  - Phase 1: Tool layer + database clients (9 tasks)
-  - Phase 2: Pipeline core — GPR builder, SBML builder, topology, LLM refinement (7 tasks)
-  - Phase 3: Benchmark framework vs CarveMe/gapseq (2 tasks)
+- **docs/superpowers/plans/** — 3-phase implementation plan (18 tasks total)
 
-## Key Design Principles
-
-1. **LLM as post-hoc refiner, not upfront filter** — Deterministic multi-database GPR assembly first; LLM polishes at the end
-2. **No KEGG dependency** — Primary reaction database is Rhea (free REST API, 17,783 reactions)
-3. **Multi-evidence fusion** — Every GPR entry backed by up to 7 evidence dimensions
-4. **Fills known tool gaps** — CarveMe universal template comparison finds missing reactions
-5. **Experimental validation** — BacDive phenotype data used for both input constraints AND quality control
+## Key Clarification
+- **KBase** is a workflow **platform** (web GUI for genome→GEM)
+- **ModelSEED** is both a biochemistry **database** (33,978 compounds, 36,645 reactions) AND a reconstruction **workflow** (runs as an App within KBase)
